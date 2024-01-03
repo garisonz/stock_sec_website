@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Form 10-k</h1>
+<p>Form 10-K is an annual report that provides a comprehensive analysis of the company's financial condition. Though the Form 10-K contains information that overlaps with the company's annual report, the two documents are not the same. Companies must submit this lengthy annual filing within 60 to 90 days of the close of their fiscal year.</p>
+<h2>Sections</h2>
+<p>The 10-K includes five distinct sections:
+    https://getbootstrap.com/docs/4.0/components/list-group/
+    Business. This provides an overview of the company’s main operations, including its products and services (i.e., how it makes money).
+    Risk factors. These outline any and all risks the company faces or may face in the future. The risks are typically listed in order of importance.
+    Selected financial data. This section details specific financial information about the company over the last five years. This section presents more of a near-term view of the company’s recent performance.
+    Management’s discussion and analysis of financial condition and results of operations. Also known as MD&A, this gives the company an opportunity to explain its business results from the previous fiscal year. This section is where the company can tell its story in its own words.
+    Financial statements and supplementary data. This includes the company’s audited financial statements including the income statement, balance sheets, and statement of cash flows. A letter from the company’s independent auditor certifying the scope of their review is also included in this section.</p>
+
+    {% if filing_html %}
+        <div class="filing-content">
+            {{ filing_html|safe }}
+        </div>
+    {% else %}
+        <p>No filing found for this ticker.</p>
+    {% endif %}
+{% endblock %}

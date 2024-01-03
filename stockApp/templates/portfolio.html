@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light"><b>Portfolio</b></h1>
+      <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+      <p>
+        <form action="{% url 'portfolio' %}" class="d-flex" role="search" method="POST">
+          {% csrf_token %}
+          <input class="form-control me-2" type="search" placeholder="ticker" aria-label="Search" name="ticker">
+          <button class="btn btn-outline-success" type="submit">Add</button>
+        </form> <br>
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="album py-5 bg-body-tertiary">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% for item in ticker %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <p class="card-text">{{ item }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  <a href="{% url 'delete' item.id %}">Delete Stock</a>
+                </div>
+                <small class="text-body-secondary">9 mins</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% for item in ticker %}
+    {{ item }} | <a href="{% url 'delete' item.id %}">Delete Stock</a> {{ item.id }} <br> 
+{% endfor %}
+
+{% endblock %}

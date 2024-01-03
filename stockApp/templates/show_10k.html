@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>10-K Filing</title>
+</head>
+<body>
+    {% if filing_html %}
+        <div class="filing-content">
+            {{ filing_html|safe }}
+        </div>
+    {% else %}
+        <p>No filing found for this ticker.</p>
+    {% endif %}
+</body>
+</html>
