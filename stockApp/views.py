@@ -1,3 +1,8 @@
+# cd Projects/stockWeb/stocks/
+# git add .
+# git commit -am "msg"
+# git push
+
 from django.shortcuts import render, redirect
 from sec_api import ExtractorApi, QueryApi
 from .models import Stock
@@ -6,25 +11,28 @@ from django.contrib import messages
 import requests
 import json
 
-# NGCDKSNS48O7R8U4
-
 def home(request):
+    return render(request, 'home.html', {})
 
+def landing(request):
     if request.method == 'POST':
         ticker = request.POST['ticker']
-        api_request = requests.get("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=NGCDKSNS48O7R8U4")
+        api_request = requests.get("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=FF1G5XBIZXLG4C9Z")
         try:
             api = json.loads(api_request.content)
         except Exception as e:
             api = "Error"
 
-        return render(request, 'home.html', {'api': api})
+        return render(request, 'landing.html', {'api': api})
     else:
-       return render(request, 'home.html', {'ticker': 'Enter a Ticker Symbol'})
+       return render(request, 'landing.html', {'ticker': 'Enter a Ticker Symbol'})
     
 
 def about(request):
     return render(request, 'about.html', {})
+
+def learn(request):
+    return render(request, 'learn.html', {})
 
 def portfolio(request):
 

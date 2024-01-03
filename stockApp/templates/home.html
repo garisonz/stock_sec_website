@@ -2,26 +2,37 @@
 
 {% block content %}
 
-<br><br>
+<main class="home-container pt-4">
+    <div class="row g-5">
+      <div class="col-md-8">
+        <ul class="nav home-nav nav-underline d-flex justify-content-right">
+            <li class="nav-item text-center" style="width: 10%;">
+                <a class="nav-link" aria-current="page" href="#">+</a>
+            </li>
+            <li class="nav-item text-center" style="width: 10%;">
+              <a class="nav-link active" aria-current="page" href="#">Active</a>
+            </li>
+            <li class="nav-item text-center" style="width: 10%;">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item text-center" style="width: 10%;">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item text-center" style="width: 10%;">
+              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+      </div>
+      <div class="side-content col-md-4">
+        <div class="position-sticky" style="top: 8rem;">
+            <div>
+                <h5 class="">Recent</h5>
 
-{% if ticker %}
-    {{ ticker }}
-{% endif %}
-
-{% if api %}
-    {% if api == "Error" %}
-        There was a problem with your ticker symbol.
-    {% else %}
-        
-        <h4>{{ api.Name }}</h4><br>
-        {{ api.Description }}<br>
-        CIK: {{ api.CIK }}<br>
-        Market Cap: {{ api.MarketCapitalization }}<br>
-        Target Price: {{ api.AnalystTargetPrice }}<br>
-
-
-    {% endif %}
-{% endif %}
-
+            </div>
+        </div>
+      </div>
+    </div>
+</main>
+  
 
 {% endblock %}
