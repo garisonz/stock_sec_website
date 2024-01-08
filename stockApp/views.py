@@ -5,7 +5,7 @@
 
 from django.shortcuts import render, redirect
 from sec_api import ExtractorApi, QueryApi
-from .models import Stock
+from .models import *
 from .forms import StockForm
 from django.contrib import messages
 import requests
@@ -63,32 +63,10 @@ def tenq(request):
 def eightk(request):
     return render(request, '8k.html', {})
 
-def show_10k_filing(request):
-    query_api = QueryApi(api_key="880e695a62b65a8ed6191eeb3650f3e219f99eede29037143bd41ed6369db07d")
+def test(request):
 
-    query = {
-        "query": { 
-           "query_string": { 
-              "query": "ticker:AAPL AND formType:\"10-K\"" }},
-        "from": "0",
-        "size": "1",
-        "sort": [{ "filedAt": { "order": "desc" } }]
-    }
+    stock = Stock_info.objects.get(ticker="AAPL")
 
-    filings = query_api.get_filings(query)
-    filing_html = None
+    stock_cik = stock.cik_str
 
-    if filings['filings']:
-        filing_url = filings['filings'][0]['linkToFilingDetails']
-        
-        # Use ExtractorAPI to get the HTML content
-        extractor_api_key = "880e695a62b65a8ed6191eeb3650f3e219f99eede29037143bd41ed6369db07d"
-        extractor_response = requests.get("https://extractorapi.com/api/v1/extractor/?apikey={extractor_api_key}&url={filing_url}")
-        
-        if extractor_response.status_code == 200:
-            filing_html = extractor_response.text
-        else:
-            # Handle errors or unsuccessful status codes
-            filing_html = "Error fetching the document."
-
-    return render(request, 'show_10k.html', {'filing_html': filing_html})
+    return render(request, 'test.html', {'stock_cik': stock_cik})

@@ -1,62 +1,61 @@
-# https://www.investopedia.com/articles/fundamental-analysis/08/sec-forms.asp#toc-form-8-k
-# 880e695a62b65a8ed6191eeb3650f3e219f99eede29037143bd41ed6369db07d
+import requests
+from bs4 import BeautifulSoup
+import json
+import os
 
-from sec_api import ExtractorApi
-from IPython.display import display, HTML
-import pandas as pd
+# Print the current working directory
+print("Current Working Directory: ", os.getcwd())
 
-API_KEY = 'YOUR_API_KEY'
+# Specify the path to your JSON file
+file_path = 'stocks/stockApp/data/company_tickers.json'
 
-extractorApi = ExtractorApi('880e695a62b65a8ed6191eeb3650f3e219f99eede29037143bd41ed6369db07d')
-filing_10_k_url = 'https://www.sec.gov/Archives/edgar/data/1318605/000156459021004599/tsla-10k_20201231.htm'
+# Open the file and load its contents
+try:
+    with open(file_path, 'r') as file:
+        data = json.load(file)
 
-# helper function to pretty print long, single-line text to multi-line text
-def pprint(text, line_length=100):
-  words = text.split(' ')
-  lines = []
-  current_line = ''
-  for word in words:
-    if len(current_line + ' ' + word) <= line_length:
-      current_line += ' ' + word
-    else:
-      lines.append(current_line.strip())
-      current_line = word
-  if current_line:
-    lines.append(current_line.strip())
-  print('\n'.join(lines))
+        # Check if data is a list or a dictionary and handle accordingly
+        if isinstance(data, list):
+            # If it's a list, take the first 10 items
+            first_10_items = data[:10]
+        elif isinstance(data, dict):
+            # If it's a dictionary, take the first 10 key-value pairs
+            first_10_items = dict(list(data.items())[:10])
+        else:
+            print("JSON is neither a list nor a dictionary")
+            first_10_items = {}
 
-# extract text section "Item 1 - Business" from 10-K
-item_1_text = extractorApi.get_section(filing_10_k_url, '1', 'text')
+        # Print the first 10 items
+        print(json.dumps(first_10_items, indent=4))
 
-print('Extracted Item 1 (Text)')
-print('-----------------------')
-pprint(item_1_text[0:1500])
-print('... cut for brevity')
-print('-----------------------')
+except FileNotFoundError:
+    print(f"File not found: {file_path}")
+except json.JSONDecodeError:
+    print("Error decoding JSON")
 
-# extract HTML section "Item 1 - Business" from 10-K
-item_1_html = extractorApi.get_section(filing_10_k_url, '1', 'html')
+#url = f'https://www.sec.gov/edgar/browse/?CIK=cik'
 
-print('Extracted Item 1 (HTML)')
-print('-----------------------')
-display(HTML(item_1_html[0:3000]))
-print('... cut for brevity')
-print('-----------------------')
+#def get_cik(company_name):
+    # SEC's EDGAR search URL for company CIK
+    #url = f'https://www.sec.gov/cgi-bin/browse-edgar?company={company_name}'
 
-# extract the HTML version of section "Item 6 - Selected Financial Data"
-item_6_html = extractorApi.get_section(filing_10_k_url, '6', 'html')
-print('Extracted Item 6 (HTML)')
-print('-----------------------')
-display(HTML(item_6_html[0:1000]))
-print('... cut for brevity')
-print('-----------------------')
+    # Send HTTP request to the SEC website
+    #response = requests.get(url)
+    #if response.status_code != 200:
+    #    return "Error: Unable to retrieve data"
 
-# read HTML table from a string and convert to dataframe
-tables = pd.read_html(item_6_html)
-# first table includes the financial statements
-df = tables[0] 
-# drop all columns with NaN values except if the first cell is not NaN
-mask = (df.iloc[1:, :].isna()).all(axis=0)
-financial_statements = df.drop(df.columns[mask], axis=1).fillna('')
-print('Consolidated financial statements as dataframe:')
-financial_statements
+    # Parse the HTML content
+    #soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Find the CIK number in the parsed HTML
+    # The exact method depends on how the SEC's website structures the information
+    #cik_tag = soup.find('span', class_='companyName').find_next('a')
+    #if cik_tag:
+    #    cik = cik_tag.text.strip()
+    #    return cik
+    #else:
+    #    return "CIK not found"
+
+# Get CIK for Apple Inc.
+#apple_cik = get_cik("Apple Inc")
+#print(apple_cik)

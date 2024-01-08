@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if stock %}
+    {{ stock.cik_str }}
+    {{ stock.ticker }}
+    {{ stock.title }}
+{% endif %}
+
+{% endblock %}
