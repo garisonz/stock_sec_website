@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>TEST</h1>
+
+<form action="{% url 'test' %}" class="d-flex" role="search" method="POST"></form>
+    {% csrf_token %}
+    <label for="ticker">Ticker Symbol:</label>
+    <input type="text" id="ticker" name="ticker">
+    <button type="submit">Search</button>
+</form>
+
+{{ stock_cik }}
+
+
+
+{% endblock %}

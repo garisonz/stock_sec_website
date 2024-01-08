@@ -11,6 +11,7 @@ urlpatterns = [
     path('portfolio', views.portfolio, name='portfolio'),
     path('delete/<stock_id>', views.delete, name='delete'),
     path('learn', views.learn, name='learn'),
+    path('test', views.test, name='test'),
 
 
 ]

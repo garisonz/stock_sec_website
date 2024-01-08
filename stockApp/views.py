@@ -5,7 +5,7 @@
 
 from django.shortcuts import render, redirect
 from sec_api import ExtractorApi, QueryApi
-from .models import Stock
+from .models import *
 from .forms import StockForm
 from django.contrib import messages
 import requests
@@ -62,3 +62,11 @@ def tenq(request):
 
 def eightk(request):
     return render(request, '8k.html', {})
+
+def test(request):
+
+    stock = Stock_info.objects.get(ticker="AAPL")
+
+    stock_cik = stock.cik_str
+
+    return render(request, 'test.html', {'stock_cik': stock_cik})
