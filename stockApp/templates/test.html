@@ -13,6 +13,14 @@
 
 {{ stock_cik }}
 
+{% for filing in filings %}
+    <h2>{{ filing.title }}</h2>
+    <a href="{{ filing.link }}">{{ filing.link }}</a>
+    <!-- Add other fields as needed -->
+{% empty %}
+    <p>No filings available.</p>
+{% endfor %}
+
 
 
 {% endblock %}

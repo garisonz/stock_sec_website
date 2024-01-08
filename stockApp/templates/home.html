@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% include 'base.html' %}
 
 {% block content %}
 
@@ -10,7 +10,7 @@
                 <a class="nav-link" aria-current="page" href="#">+</a>
             </li>
             <li class="nav-item text-center" style="width: 10%;">
-              <a class="nav-link active" aria-current="page" href="#">Active</a>
+              <a class="nav-link active" aria-current="page" href="{% url 'latest' %}">Latest</a>
             </li>
             <li class="nav-item text-center" style="width: 10%;">
               <a class="nav-link" href="#">Link</a>
@@ -22,7 +22,9 @@
               <a class="nav-link disabled" aria-disabled="true">Disabled</a>
             </li>
           </ul>
+          
       </div>
+      
       <div class="side-content col-md-4">
         <div class="position-sticky" style="top: 8rem;">
             <div>

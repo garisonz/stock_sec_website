@@ -10,6 +10,8 @@ from .forms import StockForm
 from django.contrib import messages
 import requests
 import json
+import xml.etree.ElementTree as ET
+from django.http import JsonResponse
 
 def home(request):
     return render(request, 'home.html', {})
@@ -65,8 +67,43 @@ def eightk(request):
 
 def test(request):
 
+    header = {
+        "User-Agent": "garisonzag88@gmail.com"
+    }
+
     stock = Stock_info.objects.get(ticker="AAPL")
 
     stock_cik = stock.cik_str
 
     return render(request, 'test.html', {'stock_cik': stock_cik})
+
+def fetch_filings(feed_url, headers):
+    
+    response = requests.get(feed_url, headers=headers)
+    response.raise_for_status()
+
+    # Parse the XML response
+    root = ET.fromstring(response.content)
+    filings = []
+    for item in root.findall('./channel/item'):
+        filings.append({
+            'title': item.find('title').text,
+            'link': item.find('link').text,
+            # Add other relevant information here
+        })
+
+    return filings
+
+def filings_view(request):
+    
+    headers = {
+        'User-Agent': '(garisonzag88@gmail.com)'
+    }
+
+    feed_url = 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&CIK=&type=10-K&company=&dateb=&owner=exclude&start=0&count=40&output=atom'
+    filings = fetch_filings(feed_url, headers)
+
+    return render(request, 'test.html', {'filings': filings})
+
+def latest(request):
+    return render(request, 'latest.html', {})
